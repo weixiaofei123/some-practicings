@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="./test.css">
+</head>
+<style type="text/css"></style>
+<body>
+	<div class="contain">
+		<div class="contain_left">
+			<div class="content">
+				<div class="title">
+					Let's set up your account
+				</div>
+				<div class="clue">
+					Already have a account?<span class="sign">Sign in</span>
+				</div>
+				<div class="name">
+					<input id="name" type="" name="" >
+					<span class="nameTitle">Your name</span>
+				</div>
+				<div class="emailContain">
+					<input id="email" type="" name="" >
+					<span class="emailTitle">Email address</span>
+					<span class="emailClue">Please input a valid email address</span>
+				</div>
+				<div class="select">
+						<div id="content">
+        				</div>
+        				<div id="selectImg" style="background: url('./img/fangxiang-xiangxia1.png');background-size: 100% 100%;"></div>
+        				<div id="selectItem">
+        				</div>
+        			
+				</div>
+				<div class="passwordContain">
+					<input id="password" type="password" name="" >
+					<span class="passwordText">Password</span>
+					<span class="passwordClue">Minimun 8 characters</span>
+					<div id="showHide" class="hide" style=""></div>
+				</div>
+				
+				<div class="next" id="next">
+					next
+				</div>
+				<div class="indication">
+					By clicking the "Next" button,you agree to creating a free 
+					account,and to <span class="sign">Terms of Service</span> and <span class="sign">Privacy Policy.</span>
+				</div>
+			</div>
+			<div class="step">
+				step 1 of 3....
+			</div>
+		</div>
+		<div class="contain_right">
+			<div class="rightClue">
+				<div class="rightTitle">Dummy Heading</div>
+				<div class="rightContent">
+					Lorem ipsum dolor sit amet,consectetur
+					adipiscing elit,sed doeiusmod tempor
+					incididunt ut labore et dolore magna aliqua.
+			</div>
+			</div>
+			
+		</div>
+	</div>
+	<script type="text/javascript">
+		//object of elements 
+		var onext=document.getElementById("next")
+		var oName=document.getElementById("name")
+		var oShowHide=document.getElementById("showHide")
+		var oPassword=document.getElementById("password");
+		var oPasswordClue=document.getElementsByClassName("passwordClue")[0];
+		var data = [{name:'developer',value:'1'},{name:'engineer',value:'2'},
+				{name:'manager',value:'3'},{name:'administrator',value:'4'}]
+   		var content = document.getElementById('content');
+   		var selectImg = document.getElementById('selectImg');
+   		var selectItem = document.getElementById('selectItem');
+   		var email = document.getElementById("email");
+
+		//just add event listener to name input about the change of the next button
+   			oName.onkeyup=function(){
+			nextShow()
+		}
+
+
+		//check email	
+		var emailRight=false;
+		email.onkeyup=function(e){
+			checkEmail(e.target)
+			nextShow()
+		}
+
+
+		//check the selector
+		var ul = document.createElement('ul');
+   		 selectItem.appendChild(ul);
+   		 for(var i = 0; i < data.length; i++){
+   		     var li = document.createElement('li');
+   		     li.setAttribute('data-value',data[i].value);
+   		     li.innerText = data[i].name;
+   		     ul.appendChild(li);
+   		 }
+   		 
+   		 //click on the selector
+   		 selectImg.onclick = function () {
+   		     // console.log(selectItem.style.display);
+   		     if(selectItem.style.display == 'none' || selectItem.style.display == ''){
+   		         selectItem.style.display = 'block';
+   		     }else{
+   		         selectItem.style.display = 'none';
+   		         nextShow()
+   		     }
+		
+   		 }
+		
+   		 content.onclick = function () {
+   		     if(selectItem.style.display == 'none' || selectItem.style.display == ''){
+   		         selectItem.style.display = 'block';
+   		     }else{
+   		         selectItem.style.display = 'none';
+   		     }
+   		 }
+		
+   		 var lis = selectItem.getElementsByTagName('li');
+   		 for(var i = 0; i < lis.length; i++){
+   		     lis[i].onclick = function () {
+   		         console.log(this.innerHTML,this.getAttribute('data-value'));
+   		         content.innerText = this.innerHTML;
+   		         selectItem.style.display = 'none';
+   		     }
+   		 }
+
+		//password input
+		oPassword.onkeyup=function(e){
+			nextShow();
+			if (e.target.value.length<=8) {
+				oPasswordClue.style.color="red";
+			}else{
+				oPasswordClue.style.color="black";
+			}
+		}
+		
+		//click on the show and hide button
+		oShowHide.onclick=function(e){
+			if (e.target.className=="hide") {
+				e.target.className="show";
+				e.target.parentElement.getElementsByTagName("input")[0].type="text"
+			}else{
+				e.target.className="hide";
+				e.target.parentElement.getElementsByTagName("input")[0].type="password"
+			}
+		}
+		
+
+		//the change of the next button
+		function nextShow(){
+		// console.log("here")
+		if (oName.value!=""&&content.innerHTML!=""&&emailRight&&oPassword.value.length>8) {
+						next.style.backgroundColor="blue"
+					}else{
+						next.style.backgroundColor="#777777"
+					}
+	}
+
+
+		//email check
+		function checkEmail(ele){
+  	  		
+			if(email.value == null || email.value == ""){
+				// alert("pls inpt email!");
+				email.focus();
+				return;
+			}
+			var regExp = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+			if(!regExp.test(email.value)){
+				// alert("您输入的E-mail地址不正确!");
+				ele.style.border="1px solid red";
+				ele.nextElementSibling.style.color="red";
+				ele.nextElementSibling.nextElementSibling.style.display="block";
+				emailRight=false;
+				email.focus();
+				return;
+			}else{
+				ele.style.border="1px solid #d1c0c0";
+				ele.nextElementSibling.style.color="#777777";
+				ele.nextElementSibling.nextElementSibling.style.display="none";
+				emailRight=true;
+				
+			}
+		}
+
+	</script>
+</body>
+</html>
