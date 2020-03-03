@@ -1,0 +1,196 @@
+    $border:1px solid #d1c0c0;
+    ul,li,body{
+    	list-style: none;
+    	margin:0px;
+    	padding:0px;
+    }
+    .contain{
+    	width: 100%;
+    	height: 500px;
+    	position: relative;
+
+        .contain_left{
+        position: absolute;
+        top: 0px;
+        width: 70%;
+        height: 100%;
+        background-color: #fcf4f4;
+    }
+
+
+        .contain_right{
+        width: 40%;
+        height: 100%;
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        background-color: blue;
+        text-align: center;
+        padding-top: 190px;
+        color: white;
+    }
+    }
+
+    .content{
+    	width: 50%;
+    	height: 500px;
+    	margin:100px auto;
+    }
+
+    .title{
+    	font-size: 29px;
+        font-weight: 700;
+    }
+    .clue{
+    	margin:20px 0px;
+    }
+    .sign{
+    	color: blue;
+        margin: 0 5px;
+    }
+    input{
+    	width: 100%;
+        height: 40px;
+        border: $border;
+        border-radius: 4px;
+        margin-bottom: 41px;
+        background-color: #fcf4f4;
+    }
+    .name{
+    	position: relative;
+    	width: 100%;
+    }
+    .nameTitle{
+    	position: absolute;
+        display: inline-block;
+        background-color: #fcf4f4;
+        top: -11px;
+        left: 21px;
+        color: #777777;
+    }
+    .emailContain{
+    	position: relative;
+    	width: 100%;
+    }
+    .emailTitle{
+    	@extend .nameTitle;
+    }
+    .emailClue{
+    	position: absolute;
+        top: 52px;
+        left: 10px;
+        display: none;
+        color:red;
+    }
+    .select{
+    	position: relative;
+    	width: 100%;
+    }
+    #selectImg{
+    	position: absolute;
+        right: 5px;
+        top: 10px;
+        width: 20px;
+        height: 20px;
+    }
+    .hide{
+    	@extend #selectImg;
+        background: url('./img/yincang.png');
+        background-size: 100% 100%;
+    }
+    .show{
+    	@extend #selectImg;
+        background: url('./img/xianshi_huaban.png');
+        background-size: 100% 100%;
+    }
+    #content{
+    	width: 100%;
+        height: 40px;
+        border:$border;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        background-color: #fcf4f4;
+        line-height: 40px;
+        
+    }
+
+
+     #selectItem{
+        position: absolute;
+        top: 20px;
+        left: 34px;
+        width: 100%;
+        background-color: #fcf4f4;
+        display: none;
+        }
+        #selectItem ul{
+        position: absolute;
+        left: -34px;
+        color: #000000;
+        width: 100%;
+        border:$border;
+        background-color: #fcf4f4;
+        top: 20px;
+        z-index: 20;
+        }
+        #selectItem ul li{
+            height: 30px;
+            line-height: 30px;
+            padding-left: 10px;
+            cursor: pointer;
+
+        }
+         #selectItem ul li:hover{
+            background-color:yellow;
+        }
+    .passwordContain{
+    	margin-top: 25px;
+    	position: relative;
+    	width: 100%;
+    }
+
+    .passwordText{
+    	position: absolute;
+        display: inline-block;
+        background-color: #fcf4f4;
+        top: -11px;
+        left: 21px;
+        color:#777777;
+    }
+    .passwordClue{
+    	position: absolute;
+        bottom: 9px;
+    }
+    .next{
+    	width: 100%;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        background-color: #777777;
+        color: white;
+        border-radius: 7px;
+        font-size: 25px;
+    }
+    .indication{
+    	margin-top: 25px;
+    }
+    .step{
+    	position: fixed;
+        top: 17px;
+        right: 566px;
+    }
+    .rightClue{
+    	width: 50%;
+    	margin:0 auto;
+
+    }
+
+    .rightTitle{
+    	font-size: 24px;
+    }
+    .rightContent{
+        margin-top: 25px;
+        text-align: left;
+        margin-left: 42px;
+        width: 114%;
+    }

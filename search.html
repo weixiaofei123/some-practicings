@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8"/>
+	<title>Document</title>
+	<style type="text/css">
+		ul,li{
+			list-style: none;
+		}
+		input::-webkit-input-placeholder{
+			color:blue;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrap">
+		<input type="text" placeholder="city name "/>
+	</div>
+	<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+	<script>
+		window.onload=function(){
+
+			//seize the data about the city name
+			var data;
+			$.getJSON("https://raw.githubusercontent.com/weixiaofei123/some-practicings/master/city.json",
+				function(res){
+				data=res;
+				// console.log(data)
+			})
+			
+			//monitor the input
+			var oDiv=document.getElementById("wrap");
+			document.getElementsByTagName("input")[0].onkeyup=function(e){
+			if (e.target.nextElementSibling) {
+				e.target.parentElement.removeChild(e.target.nextElementSibling)
+			}
+			if (e.target.value) {
+				// console.log("here")
+			// console.log(e.target.nextElementSibling)
+			var oUl=document.createElement("ul");
+			oDiv.appendChild(oUl);
+			var inputValue=e.target.value;
+			//choose the right city and show them
+			data.map((item)=>{
+			var myReg=new RegExp(inputValue,"gi")
+			if (myReg.test(item.city)) {
+				var textNow=item.city.replace(myReg,"<span style='color:yellow;'>"+inputValue+"</span>");
+				// console.log(item.detail_text)
+				var oLi=document.createElement("li");
+				oLi.innerHTML=textNow;
+				oUl.appendChild(oLi)
+			}
+			// item.detail_text.search(myReg)
+			})
+	}
+	
+	}
+
+		}
+	</script>
+</body>
+</html>
