@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="container">
+		
+	</div>
+	<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+	<script>
+		var firstN=GetRequest().name.split(" ")[0];
+		var lastN=GetRequest().name.split(" ")[1];
+		var schoolYear=GetRequest().schoolYear;
+		var oContainer=document.getElementById("container");
+		//ajax for get the right student info
+	 	$.getJSON("./php/detailView.php",{firstN:firstN,lastN:lastN,schoolYear:schoolYear},function(res){
+			var data=res;
+			data.map((item,index)=>{
+			var oDiv=document.createElement("div");
+			oContainer.appendChild(oDiv);
+			oDiv.innerHTML=item.firstN+" "+item.lastN+" "+item.photo+" "+item.DOB+" "+item.date1+" "+item.current;
+
+			})
+	 	});
+		
+		//get the parameter and parse
+		function GetRequest() {
+	  	var url = location.search; 
+	  	var theRequest = new Object();
+	  	if (url.indexOf("?") != -1) {
+	      strs = str.split("&");
+	      for(var i = 0; i < strs.length; i ++) {
+	         theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+	      }
+	   }
+	   return theRequest;
+	}
+
+	</script>
+</body>
+</html>

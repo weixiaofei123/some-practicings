@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div style="width: 50%;">
+		<table border = "1" width = "100%" id="myTable">
+    		<tbody clss="myBody">
+    		 	<tr class="head">
+    		        <td id="name">name</td>
+    		        <td id="schoolYear">school year</td>
+    		        <td >email</td>
+    		        <td >delete</td>
+    		        <td >edit</td>
+    		    </tr>
+    		</tbody>         
+		</table>
+		<div id="total">
+			
+		</div>
+		<span>you can click school year and name for sorting ,clicking delete for delete and clicking edit for update</span>
+	</div>
+	
+	 <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+	 <script type="text/javascript">
+
+		
+		function getRepeatNum(arr){ 
+		    var obj = {}; 
+		    for(var i= 0, l = arr.length; i< l; i++){ 
+		        var item = arr[i].current; 
+		        obj[item] = (obj[item] +1 ) || 1; 
+		    } 
+		    return obj; 
+		}
+
+
+		//object List 
+		function List(data) {
+			// body...
+			this.data=data;
+			this.flag=false;
+		}
+		
+		//show the summary of the list
+	 	List.prototype.show=function(arr){
+	 		var data=arr||this.data;
+			data.map((item,index)=>{
+				var table=document.getElementById("myTable");
+					if (!arr) {
+						//add rows and columns
+						var row=table.insertRow(index);
+						var cell1=row.insertCell(0);
+						var cell2=row.insertCell(1);
+						var cell3=row.insertCell(2);
+						var cell4=row.insertCell(3);
+						var cell5=row.insertCell(4);
+						cell1.innerHTML=item.firstN+" "+item.lastN;
+						cell1.setAttribute("nameN","name");
+						cell2.innerHTML=item.current;
+						cell3.innerHTML="<a href=mailto:"+item.emial+">"+item.emial+"</a>";
+						cell4.innerHTML="delete";
+						cell4.setAttribute("delete","delete");
+						cell5.innerHTML="edit";
+						cell5.setAttribute("edit","edit");
+					}else{
+						var oTr=document.getElementsByTagName("tr");
+						oTr[index].cells[0].innerHTML=item.firstN+""+item.lastN;
+						oTr[index].cells[0].setAttribute("nameN","name");
+						oTr[index].cells[1]=item.current;
+						oTr[index].cells[2]="<a href=mailto:"+item.emial+">"+item.emial+"</a>";
+						oTr[index].cells[3]="delete";
+						oTr[index].cells[3].setAttribute("delete","delete");
+						oTr[index].cells[4]="edit";
+						oTr[index].cells[4].setAttribute("edit","edit");
+
+					}
+			})
+	 	}
+
+		//sorting by year for the summary
+	 	List.prototype.sortByYear=function(){
+			var arr=this.data;
+			　　for (var i = 0; i < arr.length; i++) {
+			　　　　for (var j = i; j < arr.length-1; j++) {
+			　　　　　　if (arr[i].current > arr[i + 1].current) {
+			　　　　　　　　var temp = arr[i];
+			　　　　　　　　arr[i] = arr[i + 1];
+			　　　　　　　　arr[i + 1] = temp;
+			　　　　　　}
+			　　　　}
+			　　}
+			　
+			 this.show(arr)
+			 this.flag=true;
+	 	}
+
+		//sorting by name for the summary
+		List.prototype.sortByName=function(){
+		var arr=this.data;
+		if (!this.flag) {
+			for (var i = 0; i < arr.length; i++) {
+		　　　　for (var j = i; j < arr.length-1; j++) {
+		　　　　　　if (arr[i].firstN.substring(0,1) > arr[i + 1].firstN.substring(0,1)) {
+		　　　　　　　　var temp = arr[i];
+		　　　　　　　　arr[i] = arr[i + 1];
+		　　　　　　　　arr[i + 1] = temp;
+		　　　　　　}
+		　　　　}
+		　　}
+		　
+		
+		}else{
+			console.log(arr)
+			for (var i = 0; i < arr.length-1; i++) {
+				if (arr[i].current==arr[i + 1].current) {
+					if (arr[i].firstN.substring(0,1) > arr[i + 1].firstN.substring(0,1)) {
+		　　　　　　　　	var temp = arr[i];
+		　　　　　　　　	arr[i] = arr[i + 1];
+		　　　　　　　　	arr[i + 1] = temp;
+		　　　　　		　}
+				}
+			}
+		}
+		　//show the summary
+		　this.show(arr)
+	 	}
+
+		//ajax 
+	 	$.getJSON("./php/enrollData.php",function(res){
+			var obj=getRepeatNum(res);
+			var str="";
+			 for(let key  in obj){
+        		str+=key + "---" + obj[key]+"  ";
+  				}
+			document.getElementById("total").innerHTML=str;
+			var list=new List(res);
+				list.show();
+			document.getElementById("schoolYear").onclick=function(){
+				list.sortByYear();
+			};
+			document.getElementById("name").onclick=function(){
+				list.sortByName();
+			};
+
+			//click the name for sorting
+			$("[nameN]").click(function(e){
+				console.log("here")
+				var name=$(e.target.parentElement.cells[0]).text();
+				var schoolYear=$(e.target.parentElement.cells[1]).text();
+				window.location.href="detailView.html?name="+name+"&schoolYear="+schoolYear;
+			});
+
+			//click delete for delete
+			$("[delete]").click(function(e){
+				var name=$(e.target.parentElement.cells[0]).text();
+				var firstN=name.split(" ")[0];
+				var lastN=name.split(" ")[1];
+				var schoolYear=$(e.target.parentElement.cells[1]).text();
+				window.location.href="./php/delete.php?firstN="+firstN+"&lastN="+lastN+"&schoolYear="+schoolYear;
+			})
+			//click edit for edit
+			$("[edit]").click(function(e){
+				var name=$(e.target.parentElement.cells[0]).text();
+				var firstN=name.split(" ")[0];
+				var lastN=name.split(" ")[1];
+				var schoolYear=$(e.target.parentElement.cells[1]).text();
+				window.location.href="./php/update.php?firstN="+firstN+"&lastN="+lastN+"&schoolYear="+schoolYear;
+			})
+	 		})
+	 </script>
+</body>
+</html>
